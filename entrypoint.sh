@@ -98,6 +98,12 @@ _push_to_github() {
         # Only add `--tags` option, if `$INPUT_TAGGING_MESSAGE` is set
         if [ -n "$INPUT_TAGGING_MESSAGE" ]
         then
+            CHECK_TAG_EXISTANCE=$(git rev-parse "${INPUT_TAGGING_MESSAGE}")
+            if [ -n "$CHECK_TAG_EXISTANCE" ]
+            then
+                git push --delete origin "${INPUT_TAGGING_MESSAGE}"
+            fi
+
             echo "::debug::git push origin --tags";
             git push origin --tags ${INPUT_PUSH_OPTIONS:+"${INPUT_PUSH_OPTIONS_ARRAY[@]}"} -f;
         else
