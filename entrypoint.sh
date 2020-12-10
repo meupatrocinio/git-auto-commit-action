@@ -88,7 +88,7 @@ _tag_commit() {
 }
 
 _delete_remote_tag() {
-    echo "Deleting INPUT_TAGGING_MESSAGE: ${INPUT_TAGGING_MESSAGE}"
+    echo "Deleting INPUT_TAGGING_MESSAGE: ${INPUT_TAGGING_MESSAGE} to attach it to a new commit"
     
     if git rev-parse "$INPUT_TAGGING_MESSAGE" >/dev/null 2>&1; then
         git push --delete origin "$INPUT_TAGGING_MESSAGE";
