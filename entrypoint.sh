@@ -99,7 +99,7 @@ _push_to_github() {
         if [ -n "$INPUT_TAGGING_MESSAGE" ]
         then
             echo "::debug::git push origin --tags";
-            git push origin --tags ${INPUT_PUSH_OPTIONS:+"${INPUT_PUSH_OPTIONS_ARRAY[@]}"};
+            git push origin --force --tags ${INPUT_PUSH_OPTIONS:+"${INPUT_PUSH_OPTIONS_ARRAY[@]}"};
         else
             echo "::debug::git push origin";
             git push origin ${INPUT_PUSH_OPTIONS:+"${INPUT_PUSH_OPTIONS_ARRAY[@]}"};
