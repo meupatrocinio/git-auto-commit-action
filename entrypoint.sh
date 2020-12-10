@@ -98,12 +98,12 @@ _push_to_github() {
         # Only add `--tags` option, if `$INPUT_TAGGING_MESSAGE` is set
         if [ -n "$INPUT_TAGGING_MESSAGE" ]
         then
-            export CHECK_TAG_EXISTANCE=$(git rev-parse "${INPUT_TAGGING_MESSAGE}")
-            echo "CHECK_TAG_EXISTANCE: ${CHECK_TAG_EXISTANCE}"
+            export CHECK_TAG_EXISTANCE=$(git rev-parse "${INPUT_TAGGING_MESSAGE}");
+            echo "CHECK_TAG_EXISTANCE: ${CHECK_TAG_EXISTANCE}";
             if [ -z "$CHECK_TAG_EXISTANCE" ]
             then
-                echo "Deleting tag: ${CHECK_TAG_EXISTANCE}"
-                git push --delete origin "$INPUT_TAGGING_MESSAGE"
+                echo "Deleting tag: ${CHECK_TAG_EXISTANCE}";
+                git push --delete origin "$INPUT_TAGGING_MESSAGE";
             fi
 
             echo "::debug::git push origin --tags";
