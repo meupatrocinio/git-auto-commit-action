@@ -78,6 +78,13 @@ _tag_commit() {
 
     if [ -n "$INPUT_TAGGING_MESSAGE" ]
     then
+        CHECK_TAG_EXISTANCE=$(git rev-parse "${INPUT_TAGGING_MESSAGE}");
+        echo "CHECK_TAG_EXISTANCE: ${CHECK_TAG_EXISTANCE}";
+        if [ -z "$CHECK_TAG_EXISTANCE" ]
+            then
+                echo "Deleting tag: ${CHECK_TAG_EXISTANCE}";
+                git push --delete origin "$INPUT_TAGGING_MESSAGE";
+            fi
         echo "::debug::Create tag $INPUT_TAGGING_MESSAGE";
         git -c user.name="$INPUT_COMMIT_USER_NAME" -c user.email="$INPUT_COMMIT_USER_EMAIL" tag -a "$INPUT_TAGGING_MESSAGE" -m "$INPUT_TAGGING_MESSAGE" -f;
     else
