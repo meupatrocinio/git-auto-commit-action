@@ -17,8 +17,6 @@ _main() {
 
         _tag_commit
 
-        _delete_remote_tag
-
         _push_to_github
     else
 
