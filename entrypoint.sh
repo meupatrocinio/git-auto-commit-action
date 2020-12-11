@@ -92,6 +92,8 @@ _delete_remote_tag() {
     
     if git rev-parse "$INPUT_TAGGING_MESSAGE" >/dev/null 2>&1; then
         git push --delete origin "$INPUT_TAGGING_MESSAGE";
+    else
+        echo "INPUT_TAGGING_MESSAGE does not exist"
     fi
 }
 
