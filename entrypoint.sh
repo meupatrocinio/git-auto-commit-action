@@ -129,7 +129,7 @@ _merge_and_push_to_github() {
     then
         echo "::debug::git push origin --tags";
         git checkout $INPUT_DEST_RELEASE_BRANCH;
-        git merge -f $INPUT_BRANCH;
+        git merge $INPUT_BRANCH;
         git push -f origin $INPUT_DEST_RELEASE_BRANCH;
     else
         echo "::debug::Something went wrong";
