@@ -125,7 +125,7 @@ _merge_and_push_to_github() {
     then
         echo "::debug::git push origin --tags";
         git checkout $INPUT_DEST_RELEASE_BRANCH;
-        git merge --ff --no-verify $INPUT_BRANCH;
+        git merge --allow-unrelated-histories $INPUT_BRANCH;
         git push -f -u origin $INPUT_DEST_RELEASE_BRANCH;
     else
         echo "::debug::Something went wrong";
