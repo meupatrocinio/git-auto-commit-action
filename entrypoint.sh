@@ -121,12 +121,18 @@ _push_to_github() {
 
 _merge_and_push_to_github() {
 
+    echo "INPUT_PUSH_OPTIONS: ${INPUT_PUSH_OPTIONS}";
+    echo "::debug::Apply push options ${INPUT_PUSH_OPTIONS}";
+
+    # shellcheck disable=SC2206
+    INPUT_PUSH_OPTIONS_ARRAY=( $INPUT_PUSH_OPTIONS );
+
     if [ -n "$INPUT_DEST_RELEASE_BRANCH" ]
     then
         echo "::debug::git push origin --tags";
         git checkout $INPUT_DEST_RELEASE_BRANCH;
         git merge --allow-unrelated-histories $INPUT_BRANCH;
-        git push -f -u origin $INPUT_DEST_RELEASE_BRANCH;
+        git push --tags ${INPUT_PUSH_OPTIONS:+"${INPUT_PUSH_OPTIONS_ARRAY[@]}"} -f -u origin $INPUT_DEST_RELEASE_BRANCH;
     else
         echo "::debug::Something went wrong";
     fi
