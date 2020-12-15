@@ -17,6 +17,8 @@ _main() {
 
         _tag_commit
 
+        _merge_and_push_to_github
+
         _push_to_github
     else
 
@@ -66,6 +68,7 @@ _local_commit() {
     echo "INPUT_COMMIT_USER_EMAIL: ${INPUT_COMMIT_USER_EMAIL}";
     echo "INPUT_COMMIT_MESSAGE: ${INPUT_COMMIT_MESSAGE}";
     echo "INPUT_COMMIT_AUTHOR: ${INPUT_COMMIT_AUTHOR}";
+    echo "INPUT_DEST_RELEASE_BRANCH: ${INPUT_DEST_RELEASE_BRANCH}";
 
     git -c user.name="$INPUT_COMMIT_USER_NAME" -c user.email="$INPUT_COMMIT_USER_EMAIL" \
         commit -m "$INPUT_COMMIT_MESSAGE" \
@@ -111,13 +114,25 @@ _push_to_github() {
             echo "::debug::git push origin --tags";
             git push origin --tags ${INPUT_PUSH_OPTIONS:+"${INPUT_PUSH_OPTIONS_ARRAY[@]}"} -f;
         else
-            echo "::debug::git push origin";
-            git push origin ${INPUT_PUSH_OPTIONS:+"${INPUT_PUSH_OPTIONS_ARRAY[@]}"};
+            echo "::debug::Something went wrong";
         fi
 
     else
         echo "::debug::Push commit to remote branch $INPUT_BRANCH";
         git push --set-upstream origin "HEAD:$INPUT_BRANCH" --tags ${INPUT_PUSH_OPTIONS:+"${INPUT_PUSH_OPTIONS_ARRAY[@]}"};
+    fi
+}
+
+_merge_and_push_to_github() {
+
+    if [ -n "$INPUT_DEST_RELEASE_BRANCH" ]
+    then
+        echo "::debug::git push origin --tags";
+        git checkout $INPUT_DEST_RELEASE_BRANCH;
+        git merge -f $INPUT_BRANCH;
+        git push -f origin $INPUT_DEST_RELEASE_BRANCH;
+    else
+        echo "::debug::Something went wrong";
     fi
 }
 

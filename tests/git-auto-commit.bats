@@ -12,6 +12,7 @@ setup() {
     # Set default INPUT variables used by the GitHub Action
     export INPUT_REPOSITORY="${FAKE_LOCAL_REPOSITORY}"
     export INPUT_COMMIT_MESSAGE="Commit Message"
+    export INPUT_DEST_RELEASE_BRANCH=""
     export INPUT_BRANCH="master"
     export INPUT_COMMIT_OPTIONS=""
     export INPUT_FILE_PATTERN="."

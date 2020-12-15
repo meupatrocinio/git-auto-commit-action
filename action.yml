@@ -8,6 +8,10 @@ inputs:
     description: Commit message
     required: false
     default: Apply automatic changes
+  dest_release_branch:
+    description: Destination release branch
+    required: false
+    default: ''
   branch:
     description: Git branch name, where changes should be pushed too. Required if Action is used on the `pull_request` event
     required: false
