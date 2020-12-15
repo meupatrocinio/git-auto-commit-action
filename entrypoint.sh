@@ -116,10 +116,6 @@ _push_to_github() {
         else
             echo "::debug::Something went wrong";
         fi
-
-    else
-        echo "::debug::Push commit to remote branch $INPUT_BRANCH";
-        git push --set-upstream origin "HEAD:$INPUT_BRANCH" --tags ${INPUT_PUSH_OPTIONS:+"${INPUT_PUSH_OPTIONS_ARRAY[@]}"};
     fi
 }
 
@@ -129,8 +125,8 @@ _merge_and_push_to_github() {
     then
         echo "::debug::git push origin --tags";
         git checkout $INPUT_DEST_RELEASE_BRANCH;
-        git merge $INPUT_BRANCH;
-        git push -f origin $INPUT_DEST_RELEASE_BRANCH;
+        git merge --ff --no-verify $INPUT_BRANCH;
+        git push -f -u origin $INPUT_DEST_RELEASE_BRANCH;
     else
         echo "::debug::Something went wrong";
     fi
