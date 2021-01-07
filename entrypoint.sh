@@ -125,9 +125,8 @@ _merge_and_push_to_github() {
     then
         echo "::debug::git push merge";
         echo "::debug::git push origin";
-        git checkout $INPUT_DEST_RELEASE_BRANCH;
-        git -c user.name="$INPUT_COMMIT_USER_NAME" -c user.email="$INPUT_COMMIT_USER_EMAIL"
-        git merge $INPUT_BRANCH $INPUT_DEST_RELEASE_BRANCH;
+        git checkout origin/$INPUT_DEST_RELEASE_BRANCH;
+        git merge $INPUT_BRANCH origin/$INPUT_DEST_RELEASE_BRANCH;
         git push -f -u origin $INPUT_DEST_RELEASE_BRANCH;
     else
         echo "::debug::Something went wrong";
