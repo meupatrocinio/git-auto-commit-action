@@ -127,9 +127,9 @@ _merge_and_push_to_github() {
         _local_commit
         git config user.email "${INPUT_COMMIT_USER_EMAIL}";
         git config user.name "${INPUT_COMMIT_USER_NAME}";
-        git checkout $INPUT_DEST_RELEASE_BRANCH;
-        git merge --allow-unrelated-histories $INPUT_BRANCH $INPUT_DEST_RELEASE_BRANCH;
-        git push -f -u origin "$INPUT_DEST_RELEASE_BRANCH";
+        git checkout "${INPUT_DEST_RELEASE_BRANCH}";
+        git merge --allow-unrelated-histories "${INPUT_BRANCH}";
+        git push -f -u origin "${INPUT_DEST_RELEASE_BRANCH}";
     else
         echo "::debug::Something went wrong";
     fi
