@@ -123,10 +123,11 @@ _merge_and_push_to_github() {
 
     if [ -n "$INPUT_DEST_RELEASE_BRANCH" ]
     then
-        echo "::debug::git push origin --tags";
+        echo "::debug::git push merge";
+        echo "::debug::git push origin";
         git checkout $INPUT_DEST_RELEASE_BRANCH;
         git -c user.name="$INPUT_COMMIT_USER_NAME" -c user.email="$INPUT_COMMIT_USER_EMAIL"
-        git merge --allow-unrelated-histories $INPUT_BRANCH;
+        git merge $INPUT_BRANCH $INPUT_DEST_RELEASE_BRANCH;
         git push -f -u origin $INPUT_DEST_RELEASE_BRANCH;
     else
         echo "::debug::Something went wrong";
