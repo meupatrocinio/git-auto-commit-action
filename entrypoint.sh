@@ -124,9 +124,9 @@ _merge_and_push_to_github() {
     if [ -n "$INPUT_DEST_RELEASE_BRANCH" ]
     then
         echo "::debug::git push merge";
+        git checkout $INPUT_DEST_RELEASE_BRANCH;
+        git merge $INPUT_BRANCH $INPUT_DEST_RELEASE_BRANCH;
         echo "::debug::git push origin";
-        git checkout origin/$INPUT_DEST_RELEASE_BRANCH;
-        git merge $INPUT_BRANCH origin/$INPUT_DEST_RELEASE_BRANCH;
         git push -f -u origin $INPUT_DEST_RELEASE_BRANCH;
     else
         echo "::debug::Something went wrong";
