@@ -124,10 +124,9 @@ _merge_and_push_to_github() {
     if [ -n "$INPUT_DEST_RELEASE_BRANCH" ]
     then
         echo "::debug::git push merge";
-        _local_commit
         git config user.email "${INPUT_COMMIT_USER_EMAIL}";
         git config user.name "${INPUT_COMMIT_USER_NAME}";
-        git checkout "${INPUT_DEST_RELEASE_BRANCH}";
+        git checkout --force "${INPUT_DEST_RELEASE_BRANCH}";
         git merge --allow-unrelated-histories "${INPUT_BRANCH}";
         git push -f -u origin "${INPUT_DEST_RELEASE_BRANCH}";
     else
