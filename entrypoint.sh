@@ -101,21 +101,20 @@ _delete_remote_tag() {
 _push_to_github() {
 
     echo "INPUT_PUSH_OPTIONS: ${INPUT_PUSH_OPTIONS}";
+    echo "INPUT_TAGGING_MESSAGE: ${INPUT_TAGGING_MESSAGE}";
     echo "::debug::Apply push options ${INPUT_PUSH_OPTIONS}";
 
     # shellcheck disable=SC2206
     INPUT_PUSH_OPTIONS_ARRAY=( $INPUT_PUSH_OPTIONS );
 
-    if [ -z "$INPUT_BRANCH" ]
+    # Only add `--tags` option, if `$INPUT_TAGGING_MESSAGE` is set
+    if [ -n "$INPUT_TAGGING_MESSAGE" ]
     then
-        # Only add `--tags` option, if `$INPUT_TAGGING_MESSAGE` is set
-        if [ -n "$INPUT_TAGGING_MESSAGE" ]
-        then
-            echo "::debug::git push origin --tags";
-            git push origin --tags ${INPUT_PUSH_OPTIONS:+"${INPUT_PUSH_OPTIONS_ARRAY[@]}"} -f;
-        else
-            echo "::debug::Something went wrong";
-        fi
+        echo "${INPUT_TAGGING_MESSAGE} Exists!!!";
+        echo "::debug::git push origin --tags";
+        git push origin --tags ${INPUT_PUSH_OPTIONS:+"${INPUT_PUSH_OPTIONS_ARRAY[@]}"} -f;
+    else
+        echo "::debug::Something went wrong";
     fi
 }
 
@@ -129,6 +128,7 @@ _merge_and_push_to_github() {
         git checkout --force "${INPUT_DEST_RELEASE_BRANCH}";
         git merge --strategy=ours --ff --allow-unrelated-histories "${INPUT_BRANCH}";
         git push -f -u origin "${INPUT_DEST_RELEASE_BRANCH}";
+        _push_to_github
     else
         echo "::debug::Something went wrong";
     fi
