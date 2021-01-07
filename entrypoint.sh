@@ -126,9 +126,7 @@ _merge_and_push_to_github() {
         echo "::debug::git push merge";
         git checkout $INPUT_DEST_RELEASE_BRANCH;
         git merge --allow-unrelated-histories $INPUT_BRANCH $INPUT_DEST_RELEASE_BRANCH;
-        echo "::debug::set commiter config";
         _local_commit()
-        echo "::debug::git push origin";
         git push -f -u origin $INPUT_DEST_RELEASE_BRANCH;
     else
         echo "::debug::Something went wrong";
