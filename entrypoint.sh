@@ -110,11 +110,22 @@ _push_to_github() {
     # Only add `--tags` option, if `$INPUT_TAGGING_MESSAGE` is set
     if [ -n "$INPUT_TAGGING_MESSAGE" ]
     then
-        echo "${INPUT_TAGGING_MESSAGE} Exists!!!";
         echo "::debug::git push origin --tags";
         git push origin --tags ${INPUT_PUSH_OPTIONS:+"${INPUT_PUSH_OPTIONS_ARRAY[@]}"} -f;
     else
         echo "::debug::Something went wrong";
+    fi
+}
+
+_is_in_remote() {
+    local existed_in_remote=$(git ls-remote --heads origin ${INPUT_DEST_RELEASE_BRANCH})
+
+    if [[ -z ${existed_in_remote} ]]; then
+        git checkout --force "${INPUT_BRANCH}";
+        git checkout -b "${INPUT_DEST_RELEASE_BRANCH}";
+        git push -f -u origin "${INPUT_DEST_RELEASE_BRANCH}";
+    else
+        echo "Branch ${INPUT_DEST_RELEASE_BRANCH} already exists!"
     fi
 }
 
@@ -125,6 +136,7 @@ _merge_and_push_to_github() {
         echo "::debug::git push merge";
         git config user.email "${INPUT_COMMIT_USER_EMAIL}";
         git config user.name "${INPUT_COMMIT_USER_NAME}";
+        _is_in_remote
         git checkout --force "${INPUT_DEST_RELEASE_BRANCH}";
         git merge --strategy recursive --strategy-option theirs --ff --allow-unrelated-histories "${INPUT_BRANCH}";
         git push -f -u origin "${INPUT_DEST_RELEASE_BRANCH}";
